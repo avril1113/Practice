@@ -7,32 +7,28 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
+
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null || p == null || q == null) 
+        if (root == null)
             return null;
         
-        return locate(root, p, q);
-    }
-    
-    private TreeNode locate(TreeNode node, TreeNode p, TreeNode q) {
-        if (node == null)
-            return null;
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
         
-        TreeNode left = locate(node.left, p, q);
-        TreeNode right = locate(node.right, p, q);
+        if (root == p || root == q)
+            return root;
         
-        if (node == p || node == q)
-            return node;
+        if (left != null && right != null)
+            return root;
         
-        if (left != null && right != null) {
-            return node;
-        } else if (left != null && right == null) {
+        if (left != null)
             return left;
-        } else if (left == null && right != null) {
+        
+        if (right != null)
             return right;
-        } else {
-            return null;
-        }
+        
+        return null;
     }
+
 }
