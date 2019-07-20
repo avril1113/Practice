@@ -17,7 +17,7 @@ class Solution {
         return max;
     }
     
-    int maxSum(TreeNode node) {
+    private int maxSum(TreeNode node) {
         int leftSum = 0, rightSum = 0;
         
         if (node.left != null) {
@@ -28,8 +28,7 @@ class Solution {
             rightSum = Math.max(maxSum(node.right), rightSum);
         }
         
-        int sum = leftSum + rightSum + node.val;
-        max = Math.max(max, sum);
+        max = Math.max(max, leftSum + rightSum + node.val);
         
         return Math.max(leftSum, rightSum) + node.val;
     }
