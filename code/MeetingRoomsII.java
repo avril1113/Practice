@@ -1,36 +1,24 @@
-/**
- * Definition for an interval.
- * public class Interval {
- *     int start;
- *     int end;
- *     Interval() { start = 0; end = 0; }
- *     Interval(int s, int e) { start = s; end = e; }
- * }
- */
 class Solution {
-    public int minMeetingRooms(Interval[] intervals) {
-        if (intervals.length == 0)
-            return 0;
+    public int minMeetingRooms(int[][] intervals) {
+        if (intervals.length < 2)
+            return intervals.length;
         
-        int[] start = new int[intervals.length];
-        int[] end = new int[intervals.length];
-        for (int i = 0; i < intervals.length; i++) {
-            start[i] = intervals[i].start;
-            end[i] = intervals[i].end;
-        }
+        Arrays.sort(intervals, (o1, o2) -> (o1[0] - o2[0]));
+        PriorityQueue<Integer> endTime = new PriorityQueue<>();
+        int room = 1;
+        endTime.offer(intervals[0][1]);
         
-        Arrays.sort(start);
-        Arrays.sort(end);
-                    
-        int rooms = 0, endIndex = 0;
-        for (int i = 0; i < start.length; i++) {
-            if (start[i] < end[endIndex]) {
-                rooms++;
+        for (int i = 1; i < intervals.length; i++) {
+            int pre = endTime.peek();
+            if (intervals[i][0] < pre) {
+                room++;
             } else {
-                endIndex++;
+                endTime.poll();
             }
+            
+            endTime.offer(intervals[i][1]);
         }
         
-        return rooms;
+        return room;
     }
 }
