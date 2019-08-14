@@ -20,9 +20,10 @@ class Solution {
     }
     
     private int find(int target, int[] uf) {
-        while (target != uf[target])
-            target = uf[target];
+        if (target == uf[target]) 
+            return target;
         
-        return target;
+        uf[target] = find(uf[target], uf);
+        return uf[target]; 
     }
 }
